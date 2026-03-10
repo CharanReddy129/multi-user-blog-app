@@ -1,0 +1,8 @@
+# Multi-User Blog Platform — Root .gitignore
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
+.next/
+dist/
