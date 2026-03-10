@@ -13,6 +13,27 @@ function slugify(title) {
         '-' + Date.now();
 }
 
+// GET /api/posts/mine — list all posts by the logged-in user (including drafts)
+router.get('/mine', authGuard, async (req, res) => {
+    const { rows: posts } = await pool.query(`
+        SELECT p.*,
+               json_build_object('id', u.id, 'name', u.name, 'avatar', u.avatar) as author,
+               (SELECT COUNT(*) FROM "Comment" c WHERE c."postId" = p.id)::int as "_count_comments"
+        FROM "Post" p
+        JOIN "User" u ON p."authorId" = u.id
+        WHERE p."authorId" = $1
+        ORDER BY p."createdAt" DESC
+    `, [req.user.id]);
+
+    const formatted = posts.map(post => ({
+        ...post,
+        _count: { comments: post._count_comments },
+        _count_comments: undefined
+    }));
+
+    res.json(formatted);
+});
+
 // GET /api/posts — list published posts
 router.get('/', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
@@ -34,9 +55,8 @@ router.get('/', async (req, res) => {
 
     if (search) {
         params.push(`%${search}%`);
-        const searchCondition = ` AND (p.title ILIKE $1 OR p.content ILIKE $1)`;
-        countQuery += searchCondition.replace('p.', ''); // For simple count 
-        postsQuery += searchCondition;
+        postsQuery += ` AND (p.title ILIKE $1 OR p.content ILIKE $1)`;
+        countQuery += ` AND (title ILIKE $1 OR content ILIKE $1)`;
     }
 
     postsQuery += ` ORDER BY p."createdAt" DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
@@ -95,7 +115,7 @@ router.post('/', authGuard, async (req, res) => {
         INSERT INTO "Post" (title, slug, content, "coverImage", published, "authorId", "updatedAt")
         VALUES ($1, $2, $3, $4, $5, $6, NOW())
         RETURNING *
-    `, [title, slug, content, coverImage || null, published || false, req.user.id]);
+    `, [title, slug, content, coverImage || null, published ?? false, req.user.id]);
 
     const post = rows[0];
 

@@ -28,6 +28,7 @@ export const api = {
     // Posts
     getPosts: (page = 1, search = '') =>
         request(`/api/posts?page=${page}&limit=9&search=${encodeURIComponent(search)}`),
+    myPosts: () => request('/api/posts/mine'),
     getPost: (slug: string) => request(`/api/posts/${slug}`),
     createPost: (data: object) =>
         request('/api/posts', { method: 'POST', body: JSON.stringify(data) }),

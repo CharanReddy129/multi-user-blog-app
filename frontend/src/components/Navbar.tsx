@@ -51,6 +51,12 @@ export default function Navbar() {
                                     >
                                         Write
                                     </Link>
+                                    <Link
+                                        href="/my-posts"
+                                        className={navLinkClass('/my-posts')}
+                                    >
+                                        My Posts
+                                    </Link>
                                     {user.role === 'ADMIN' && (
                                         <Link
                                             href="/admin"
@@ -113,6 +119,7 @@ export default function Navbar() {
                     {user ? (
                         <>
                             <Link href="/write" className={pathname === '/write' ? 'bg-cyan-900/35 text-cyan-200 px-3 py-2 rounded-md' : 'text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-2 rounded-md'} onClick={() => setMenuOpen(false)}>Write</Link>
+                            <Link href="/my-posts" className={pathname === '/my-posts' ? 'bg-cyan-900/35 text-cyan-200 px-3 py-2 rounded-md' : 'text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-2 rounded-md'} onClick={() => setMenuOpen(false)}>My Posts</Link>
                             {user.role === 'ADMIN' && (
                                 <Link href="/admin" className={pathname === '/admin' ? 'bg-amber-900/35 text-amber-200 px-3 py-2 rounded-md' : 'text-gray-300 hover:text-amber-300 hover:bg-gray-800/60 px-3 py-2 rounded-md'} onClick={() => setMenuOpen(false)}>Admin</Link>
                             )}
