@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "172.30.85.64",
+        hostname: "<IP_Address>",  // Update the hostname to IP address when deploying
         port: "5000",
         pathname: "/uploads/**",
       },

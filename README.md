@@ -8,7 +8,6 @@ A full-stack blog platform built for **DevOps practice**.
 |---|---|
 | Frontend | Next.js 14 (App Router, TypeScript) |
 | Backend | Node.js + Express |
-| ORM | Prisma |
 | Database | PostgreSQL |
 | Auth | JWT (HTTP-only cookies) |
 | Images | Multer (local disk) |
@@ -78,9 +77,6 @@ multi-user-blog-app/
 │   │   ├── routes/        # auth, posts, comments, upload, admin
 │   │   ├── middleware/     # authGuard, adminGuard, errorHandler
 │   │   └── lib/           # Prisma client
-│   ├── prisma/
-│   │   ├── schema.prisma
-│   │   └── seed.js
 │   └── Dockerfile
 ├── frontend/
 │   ├── src/app/           # Next.js App Router pages

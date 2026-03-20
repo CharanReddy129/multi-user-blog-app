@@ -35,7 +35,7 @@ services:
       DATABASE_URL: postgresql://bloguser:blogpassword@postgres:5432/blogdb
       JWT_SECRET: ${JWT_SECRET:-change_me_in_production_please}
       NODE_ENV: production
-      FRONTEND_URL: http://172.30.85.64:3000
+      FRONTEND_URL: http://<IP_address>:3000
     volumes:
       - uploads_data:/app/uploads
     ports:
@@ -57,7 +57,7 @@ services:
       backend:
         condition: service_healthy
     environment:
-      - NEXT_PUBLIC_API_URL=http://172.30.85.64:5000
+      - NEXT_PUBLIC_API_URL=http://<IP_address>:5000
     ports:
       - "3000:3000"
 
